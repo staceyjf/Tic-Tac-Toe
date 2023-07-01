@@ -14,31 +14,45 @@ body {
 }
 
 header {
-    font-size: 4vmin; 
+    font-size: 5.5vmin; 
     font-weight: bold;
-    letter-spacing: 1vmin; 
+    letter-spacing: 1vmin;
+    margin-top: 1vmin; 
 }
 
+.neonText {
+    color: #fff;
+    text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 21px #fff,
+      0 0 42px #0fa,
+      0 0 82px #0fa,
+      0 0 92px #0fa,
+      0 0 102px #0fa,
+      0 0 151px #0fa;
+  }
+
 h1 {
-    font-size: 3vmin;
+    font-size: 5vmin;
 }
 
 h2 {
-    font-size: 3vmin;
+    font-size: 5vmin;
+    margin-top: 0;
 }
 
 #board {
     display: grid;
-    grid-template-columns: repeat(3, 10vmin); 
-    grid-template-rows: repeat(3, 10vmin);
+    grid-template-columns: repeat(3, 20vmin); 
+    grid-template-rows: repeat(3, 20vmin);
     gap: 1vmin;
     margin-top: 4vmin;
-    background-color: white;
 }
   
-#board > div {
+/* #board > div {
     background-color: #1035da;
-}
+} */
 
 button {
     margin-top: 4vmin;
@@ -54,15 +68,20 @@ color: white;
 background-color: darkgrey;
 }
 
-.neonText {
-    color: #fff;
-    text-shadow:
-      0 0 7px #fff,
-      0 0 10px #fff,
-      0 0 21px #fff,
-      0 0 42px #0fa,
-      0 0 82px #0fa,
-      0 0 92px #0fa,
-      0 0 102px #0fa,
-      0 0 151px #0fa;
-  }
+.x {
+    background-color: red;
+    color: darkred;
+}
+
+.o {
+    background-color: #0fa;
+    color: darkgreen;
+}
+
+.unplayed {
+    background-color: white;
+}
+
+.tie {
+    background-color: white;
+}
