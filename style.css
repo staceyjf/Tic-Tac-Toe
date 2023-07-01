@@ -1,27 +1,43 @@
 * {
     box-sizing: border-box;
+    font-family: 'Yellowtail', cursive, Arial, Helvetica, sans-serif;
 }
 
 body {
     height: 100vh;
     margin: 0;
-    font-family: 'Yellowtail', cursive, Arial, Helvetica, sans-serif;
+    background-color: #1035da;
+    display: flex; /* don't use flexbox */
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
 }
 
 header {
-    font-size: 4vmin; /* vmin makes it relative */
-    /* color: #6698fa; */
+    font-size: 4vmin; 
+    font-weight: bold;
     letter-spacing: 1vmin; 
-  }
+}
 
 h1 {
-    /* color: #f360f3; */
     font-size: 3vmin;
 }
 
 h2 {
-    /* color: #c8f83b; */
     font-size: 3vmin;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(3, 10vmin); 
+    grid-template-rows: repeat(3, 10vmin);
+    gap: 1vmin;
+    margin-top: 4vmin;
+    background-color: white;
+}
+  
+#board > div {
+    background-color: #1035da;
 }
 
 button {
@@ -31,14 +47,14 @@ button {
     border-radius: 4vmin;
     border: 0.1vmin solid grey;
     color: grey;
-  }
+}
   
 button:hover {
 color: white;
 background-color: darkgrey;
 }
 
-header.neonText {
+.neonText {
     color: #fff;
     text-shadow:
       0 0 7px #fff,
