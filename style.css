@@ -1,0 +1,52 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    font-family: 'Yellowtail', cursive, Arial, Helvetica, sans-serif;
+}
+
+header {
+    font-size: 4vmin; /* vmin makes it relative */
+    /* color: #6698fa; */
+    letter-spacing: 1vmin; 
+  }
+
+h1 {
+    /* color: #f360f3; */
+    font-size: 3vmin;
+}
+
+h2 {
+    /* color: #c8f83b; */
+    font-size: 3vmin;
+}
+
+button {
+    margin-top: 4vmin;
+    padding: 2vmin;
+    font-size: 2vmin;
+    border-radius: 4vmin;
+    border: 0.1vmin solid grey;
+    color: grey;
+  }
+  
+button:hover {
+color: white;
+background-color: darkgrey;
+}
+
+header.neonText {
+    color: #fff;
+    text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 21px #fff,
+      0 0 42px #0fa,
+      0 0 82px #0fa,
+      0 0 92px #0fa,
+      0 0 102px #0fa,
+      0 0 151px #0fa;
+  }
