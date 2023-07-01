@@ -17,10 +17,10 @@ header {
     font-size: 5.5vmin; 
     font-weight: bold;
     letter-spacing: 1vmin;
-    margin-top: 1vmin; 
+    margin-top: 2vmin;
 }
 
-.neonText {
+/* .neonText {
     color: #fff;
     text-shadow:
       0 0 7px #fff,
@@ -31,21 +31,23 @@ header {
       0 0 92px #0fa,
       0 0 102px #0fa,
       0 0 151px #0fa;
-  }
+} */
 
 h1 {
     font-size: 5vmin;
+    margin: 0;
 }
 
 h2 {
     font-size: 5vmin;
     margin-top: 0;
+    margin-bottom: 0;
 }
 
 #board {
     display: grid;
-    grid-template-columns: repeat(3, 20vmin); 
-    grid-template-rows: repeat(3, 20vmin);
+    grid-template-columns: repeat(3, 18vmin); 
+    grid-template-rows: repeat(3, 18vmin);
     gap: 1vmin;
     margin-top: 4vmin;
 }
