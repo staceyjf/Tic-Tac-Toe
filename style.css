@@ -14,7 +14,7 @@ body {
 }
 
 header {
-    font-size: 5.5vmin; 
+    font-size: 8vmin; 
     font-weight: bold;
     letter-spacing: 1vmin;
     margin-top: 2vmin;
@@ -33,14 +33,9 @@ header {
       0 0 151px #0fa;
 }
 
-h1 {
-    font-size: 5vmin;
-    margin: 0;
-}
-
 h2 {
     font-size: 5vmin;
-    margin-top: 0;
+    margin-top: 3vmin;
     margin-bottom: 0;
 }
 
@@ -70,20 +65,10 @@ color: white;
 background-color: darkgrey;
 }
 
-/* .x {
-    background-color: red;
-    color: darkred;
+.x {
+    background-color: black;
 }
 
 .o {
-    background-color: #0fa;
-    color: darkgreen;
+    background-color: black;
 }
-
-.unplayed {
-    background-color: white;
-}
-
-.tie {
-    background-color: white;
-} */

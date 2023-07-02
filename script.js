@@ -1,6 +1,5 @@
 /*----- constants -----*/ 
-const COLORS = {
-    // 'null': 'white', 
+const COLORS = { 
     '1': 'x',
     '-1': 'o',
   };
@@ -15,7 +14,7 @@ const messageEl = document.querySelector('h2');
 const playAgainBtn = document.querySelector('button');
 const markerEls = [...document.querySelectorAll('#markers > div')]; // changes into an array
 
-/*----- Winning combo 1 # winOptR1-----*/
+/*----- Winning combos-----*/
 const winCombos = [
   [[0, 0], [0, 1], [0, 2]], // Row 0
   [[1, 0], [1, 1], [1, 2]], // Row 1
@@ -65,14 +64,14 @@ function handleDrop(evt) {
   }
 
   board[colIdx][rowIdx] = turn;
-  getWinner(colIdx, rowIdx); // Remove the assignment to winner variable
+  getWinner(colIdx, rowIdx); 
   turn *= -1;
   render();
 }
 
 // Check for winner in board state
 // Return null if no winner, 1/-1 if a player has won, 'T' if tie
-function getWinner() {
+function getWinner(colIdx, rowIdx) {
   let remainingTiles = 0;
   board.forEach(function (colArr) {
     if (!colArr[2]) remainingTiles += 1;
@@ -111,20 +110,17 @@ function renderBoard() {
       const cellId = `c${colIdx}r${rowIdx}`;
       const cellEl = document.getElementById(cellId);
       if (cellVal === 1) {
-        cellEl.innerHTML = 'x';
+        cellEl.innerHTML = '<img src="https://i.imgur.com/EbNZECd.png" alt="x">';
         cellEl.classList.add('x');
-        cellEl.classList.remove('unplayed');
       } else if (cellVal === -1) {
-        cellEl.innerHTML = 'o';
+        cellEl.innerHTML = '<img src="https://i.imgur.com/gpys90t.png" alt="o">';
         cellEl.classList.add('o');
-        cellEl.classList.remove('unplayed');
       } else if (cellVal === 'T') {
         cellEl.innerHTML = 'T';
         cellEl.classList.add('tie');
-        cellEl.classList.remove('unplayed');
       } else {
         cellEl.innerHTML = ''; // Clear the cell content
-        cellEl.classList.add('unplayed');
+        
       }
     });
   });
