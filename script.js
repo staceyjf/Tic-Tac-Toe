@@ -1,4 +1,3 @@
-console.log('working')
 /*----- constants -----*/ 
 const COLORS = {
     // 'null': 'white', 
@@ -14,56 +13,19 @@ let winner; // null = no winner; 1 or -1 = winner; 'T' = tie;
 /*----- cached elements  -----*/ 
 const messageEl = document.querySelector('h2');
 const playAgainBtn = document.querySelector('button');
-const markerEls = [...document.querySelectorAll('#markers > div')]; 
+const markerEls = [...document.querySelectorAll('#markers > div')]; // changes into an array
 
 /*----- Winning combo 1 # winOptR1-----*/
-const winOptR1 = [ 
-    [1, 1, 1], // col 0
-    [null, null, null], // col 1
-    [null, null, null], // col 2
-  ];
-/*----- Winning combo 2 # winOptR2-----*/
-  const winOptR2 = [ 
-    [null, null, null], // col 0
-    [1, 1, 1], // col 1
-    [null, null, null], // col 2
-  ];
-/*----- Winning combo 3 # winOptR3-----*/
-  const winOptR3 = [ 
-    [null, null, null], // col 0
-    [null, null, null], // col 1
-    [1, 1, 1], // col 2
-  ];
-/*-----Winning combo 1 # winOptC1-----*/
-  const winOptC1 = [ 
-   [-1, null, null], // col 0
-    [-1, null, null], // col 1
-    [-1, null, null], // col 2
-  ];
-/*----- Winning combo 1 # winOptC2-----*/
-  const winOptC2 = [ 
-   [null, -1, null], // col 0
-    [null, -1, null], // col 1
-    [null, -1, null], // col 2
-  ];
-/*----- Winning combo 1 # winOptC3-----*/
-  const winOptC3 = [ 
-   [null, null, -1], // col 0
-    [null, null, -1], // col 1
-    [null, null, -1], // col 2
-  ];
-/*----- Winning combo 1 # winOptNESW-----*/
-  const winOptNESW = [ 
-   [1, null, null], // col 0
-    [null, 1, null], // col 1
-    [null, null, 1], // col 2
-  ];
-/*----- Winning combo 1 # winOptNWSE-----*/
-  const winOptNWSE = [ 
-   [null, null, -1], // col 0
-    [null, -1, null], // col 1
-    [-1, null, null], // col 2
-  ]; 
+const winCombos = [
+  [[0, 0], [0, 1], [0, 2]], // Row 0
+  [[1, 0], [1, 1], [1, 2]], // Row 1
+  [[2, 0], [2, 1], [2, 2]], // Row 2
+  [[0, 0], [1, 0], [2, 0]], // Column 0
+  [[0, 1], [1, 1], [2, 1]], // Column 1
+  [[0, 2], [1, 2], [2, 2]], // Column 2
+  [[0, 0], [1, 1], [2, 2]], // Diagonal (top-left to bottom-right)
+  [[0, 2], [1, 1], [2, 0]], // Diagonal (top-right to bottom-left)
+];
 
 /*----- event listeners -----*/ 
 document.getElementById('board').addEventListener('click', handleDrop); // Don't invoke as it doesn't return anything   
@@ -86,9 +48,9 @@ function init() {
 
 // Visualize all state in the DOM
 function render() {
-    renderBoard()
-    renderMessage() // Changes who's turn it is in <H2>
-    renderControls() // show/hide markers/play again button
+    renderBoard();
+    renderMessage(); // Changes who's turn it is in <H2>
+    renderControls(); // show/hide markers/play again button
   }
 
 // In response to user interaction, update all impacted
@@ -98,37 +60,49 @@ function handleDrop(evt) {
   const colIdx = parseInt(id.charAt(1));
   const rowIdx = parseInt(id.charAt(3));
 
-  // Check if the cell is already played or if there's a winner
   if (board[colIdx][rowIdx] || winner) {
     return;
   }
 
-  // Update the board with the player's marker
   board[colIdx][rowIdx] = turn;
-
-  // Check for a winner
-  winner = getWinner(colIdx, rowIdx);
-
-  // Toggle the turn between players
+  getWinner(colIdx, rowIdx); // Remove the assignment to winner variable
   turn *= -1;
-
-  // Render the updated state
   render();
 }
 
 // Check for winner in board state
 // Return null if no winner, 1/-1 if a player has won, 'T' if tie
-function getWinner(colIdx, rowIdx) {
-  // // Check for a tie
-  // let remainingTiles = 0;
-  // board.forEach(function(colArr) {
-  //   if (!colArr[2]) remainingTiles += 1;
-  // })
-  // if (!remainingTiles) return 'T';
-  // return checkVerticalWin(colIdx, rowIdx) ||
-  //   checkHorizontalWin(colIdx, rowIdx) ||
-  //   checkDiagonalWinNESW(colIdx, rowIdx) ||
-  //   checkDiagonalWinNWSE(colIdx, rowIdx);
+function getWinner() {
+  let remainingTiles = 0;
+  board.forEach(function (colArr) {
+    if (!colArr[2]) remainingTiles += 1;
+  });
+
+  if (!remainingTiles) {
+    winner = 'T';
+    return;
+  }
+
+  for (let i = 0; i < winCombos.length; i++) {
+    const combo = winCombos[i];
+    const [a, b, c] = combo;
+    const [aCol, aRow] = a;
+    const [bCol, bRow] = b;
+    const [cCol, cRow] = c;
+
+    const total = Math.abs(
+      board[aCol][aRow] +
+      board[bCol][bRow] +
+      board[cCol][cRow]
+    );
+
+    if (total === 3) {
+      winner = board[aCol][aRow];
+      return;
+    }
+  }
+
+  return null; // Return null if there is no winner or tie
 }
 
 function renderBoard() {
@@ -149,6 +123,7 @@ function renderBoard() {
         cellEl.classList.add('tie');
         cellEl.classList.remove('unplayed');
       } else {
+        cellEl.innerHTML = ''; // Clear the cell content
         cellEl.classList.add('unplayed');
       }
     });
