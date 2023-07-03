@@ -1,5 +1,5 @@
 /*----- constants -----*/ 
-const COLORS = { 
+const PLAYERS = { 
     '1': 'x',
     '-1': 'o',
   };
@@ -12,7 +12,6 @@ let winner; // null = no winner; 1 or -1 = winner; 'T' = tie;
 /*----- cached elements  -----*/ 
 const messageEl = document.querySelector('h2');
 const playAgainBtn = document.querySelector('button');
-const markerEls = [...document.querySelectorAll('#markers > div')]; // changes into an array
 
 /*----- Winning combos - based on indexes -----*/
 const winCombos = [
@@ -28,7 +27,7 @@ const winCombos = [
 ];
 
 /*----- event listeners -----*/ 
-document.getElementById('board').addEventListener('click', handleDrop); // Don't invoke as it doesn't return anything   
+document.getElementById('board').addEventListener('click', squareClick); // Don't invoke as it doesn't return anything   
 playAgainBtn.addEventListener('click', init);
 
 /*----- functions -----*/ 
@@ -54,7 +53,7 @@ function render() {
   }
 
 // The game event handler  
-function handleDrop(evt) {
+function squareClick(evt) {
   const { id } = evt.target; 
   const colIdx = parseInt(id.charAt(1)); // converts the column num of the # into a number 
   const rowIdx = parseInt(id.charAt(3)); // converts the row num of the # into a number
@@ -114,17 +113,18 @@ function renderBoard() {
       const cellId = `c${colIdx}r${rowIdx}`;
       const cellEl = document.getElementById(cellId);
       if (cellVal === 1) {
-        cellEl.innerHTML = '<img src="https://i.imgur.com/EbNZECd.png" alt="x">';
+        cellEl.innerHTML = '<img src="https://i.imgur.com/yJ1GeT3.png" alt="x">';
         cellEl.classList.add('x');
+        cellEl.classList.remove('unplayed');
       } else if (cellVal === -1) {
         cellEl.innerHTML = '<img src="https://i.imgur.com/gpys90t.png" alt="o">';
         cellEl.classList.add('o');
+        cellEl.classList.remove('unplayed');
       } else if (cellVal === 'T') {
         cellEl.innerHTML = 'T';
-        cellEl.classList.add('tie');
       } else {
         cellEl.innerHTML = ''; // Clear the cell content
-        
+        cellEl.classList.add('unplayed');
       }
     });
   });
@@ -134,9 +134,15 @@ function renderMessage() { // Updates <h2> based on winner
     if (winner === 'T') {
       messageEl.innerText = "It's a Tie!!!";
     } else if (winner) {
-      messageEl.innerHTML = `<span class="${COLORS[winner]}">${COLORS[winner].toUpperCase()}</span> wins!`;
+      messageEl.innerHTML = `<span class="${PLAYERS[winner]}">${PLAYERS[winner].toUpperCase()}</span> wins!`;
+      const h2Message = messageEl.querySelector('span');
+      h2Message.classList.remove('x');
+      h2Message.classList.remove('o');
     } else { // game is in play
-      messageEl.innerHTML = `<span class="${COLORS[turn]}">${COLORS[turn].toUpperCase()}</span>'s Turn`;
+      messageEl.innerHTML = `<span class="${PLAYERS[turn]}">${PLAYERS[turn].toUpperCase()}</span>'s Turn`;
+      const h2Message = messageEl.querySelector('span');
+      h2Message.classList.remove('x');
+      h2Message.classList.remove('o');
     }
   }
 

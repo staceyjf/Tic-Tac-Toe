@@ -47,10 +47,6 @@ h2 {
     margin-top: 4vmin;
 }
   
-#board > div {
-    background-color: white;
-}
-
 button {
     margin-top: 4vmin;
     padding: 2vmin;
@@ -67,8 +63,14 @@ background-color: darkgrey;
 
 .x {
     background-color: black;
+    border: 0.5vmin solid white;
 }
 
 .o {
     background-color: black;
+    border: 0.5vmin solid white;
+}
+
+.unplayed {
+    background-color: white;
 }
