@@ -14,16 +14,17 @@ const messageEl = document.querySelector('h2');
 const playAgainBtn = document.querySelector('button');
 const markerEls = [...document.querySelectorAll('#markers > div')]; // changes into an array
 
-/*----- Winning combos-----*/
+/*----- Winning combos - based on indexes -----*/
 const winCombos = [
-  [[0, 0], [0, 1], [0, 2]], // Row 0
+  // Row 0 winner = coordinates [0, 0][0, 1] [0, 2] need to be occupied (cellVal)
+  [[0, 0], [0, 1], [0, 2]], 
   [[1, 0], [1, 1], [1, 2]], // Row 1
   [[2, 0], [2, 1], [2, 2]], // Row 2
   [[0, 0], [1, 0], [2, 0]], // Column 0
   [[0, 1], [1, 1], [2, 1]], // Column 1
   [[0, 2], [1, 2], [2, 2]], // Column 2
-  [[0, 0], [1, 1], [2, 2]], // Diagonal (top-left to bottom-right)
-  [[0, 2], [1, 1], [2, 0]], // Diagonal (top-right to bottom-left)
+  [[0, 0], [1, 1], [2, 2]], // Diagonal - top-left to bottom-right)
+  [[0, 2], [1, 1], [2, 0]], // Diagonal - top-right to bottom-left)
 ];
 
 /*----- event listeners -----*/ 
@@ -41,61 +42,64 @@ function init() {
     [null, null, null], // col 2
   ];
   turn = 1; // who starts
-  winner = null;
+  winner = null; // resets to no winner
   render();
 }
 
 // Visualize all state in the DOM
 function render() {
     renderBoard();
-    renderMessage(); // Changes who's turn it is in <H2>
-    renderControls(); // show/hide markers/play again button
+    renderMessage(); // Changes who's turn it is in the header
+    renderControls(); // Show/hide play again button
   }
 
-// In response to user interaction, update all impacted
-// state, then call render();
+// The game event handler  
 function handleDrop(evt) {
-  const { id } = evt.target;
-  const colIdx = parseInt(id.charAt(1));
-  const rowIdx = parseInt(id.charAt(3));
+  const { id } = evt.target; 
+  const colIdx = parseInt(id.charAt(1)); // converts the column num of the # into a number 
+  const rowIdx = parseInt(id.charAt(3)); // converts the row num of the # into a number
 
-  if (board[colIdx][rowIdx] || winner) {
-    return;
+  if (board[colIdx][rowIdx] || winner) { // if cellVal is occupied exit
+    return;  
   }
 
-  board[colIdx][rowIdx] = turn;
+  board[colIdx][rowIdx] = turn; // assigns the cellVal to the cur player's turn
   getWinner(colIdx, rowIdx); 
-  turn *= -1;
+  turn *= -1; // Changes turns
   render();
 }
 
-// Check for winner in board state
+// Check for winner in board 
 // Return null if no winner, 1/-1 if a player has won, 'T' if tie
-function getWinner(colIdx, rowIdx) {
-  let remainingTiles = 0;
+function getWinner(colIdx, rowIdx) { 
+  let remainingTiles = 0; // for a tie
   board.forEach(function (colArr) {
-    if (!colArr[2]) remainingTiles += 1;
+    colArr.forEach(function (cellVal) {
+      if (!cellVal) {
+        remainingTiles += 1; // if empty, increment remainingTiles
+      }
+    });
   });
-
+  
   if (!remainingTiles) {
-    winner = 'T';
+    winner = 'T'; // if remainingTiles is 0, it is a tie
     return;
   }
 
   for (let i = 0; i < winCombos.length; i++) {
     const combo = winCombos[i];
-    const [a, b, c] = combo;
-    const [aCol, aRow] = a;
+    const [a, b, c] = combo; // co-ord of the winning combo
+    const [aCol, aRow] = a; 
     const [bCol, bRow] = b;
     const [cCol, cRow] = c;
 
-    const total = Math.abs(
+    const total = // sum of the values in three cells  
       board[aCol][aRow] +
       board[bCol][bRow] +
-      board[cCol][cRow]
-    );
+      board[cCol][cRow] ;
 
-    if (total === 3) {
+    // will only equal 3 if each cellVal is the same eg occupied by the same player
+    if (total === 3 || total === -3) { 
       winner = board[aCol][aRow];
       return;
     }
@@ -126,7 +130,7 @@ function renderBoard() {
   });
 }
 
-function renderMessage() {
+function renderMessage() { // Updates <h2> based on winner
     if (winner === 'T') {
       messageEl.innerText = "It's a Tie!!!";
     } else if (winner) {
@@ -136,7 +140,6 @@ function renderMessage() {
     }
   }
 
-  function renderControls() {
-    // Hids and shows the play again btn
+  function renderControls() { // Hides and shows the play again btn
     playAgainBtn.style.visibility = winner ? 'visible' : 'hidden';
   }
