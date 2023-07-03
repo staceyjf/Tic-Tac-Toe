@@ -114,10 +114,14 @@ function renderBoard() {
       const cellEl = document.getElementById(cellId);
       if (cellVal === 1) {
         cellEl.innerHTML = '<img src="https://i.imgur.com/yJ1GeT3.png" alt="x">';
+        const img = cellEl.querySelector('img');
+        img.classList.add('img');
         cellEl.classList.add('x');
         cellEl.classList.remove('unplayed');
       } else if (cellVal === -1) {
         cellEl.innerHTML = '<img src="https://i.imgur.com/gpys90t.png" alt="o">';
+        const img = cellEl.querySelector('img');
+        img.classList.add('img');
         cellEl.classList.add('o');
         cellEl.classList.remove('unplayed');
       } else if (cellVal === 'T') {
