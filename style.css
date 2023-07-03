@@ -69,8 +69,16 @@ background-color: darkgrey;
 .o {
     background-color: black;
     border: 0.5vmin solid white;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
 
 .unplayed {
     background-color: white;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
